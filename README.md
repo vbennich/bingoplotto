@@ -1,5 +1,5 @@
 # Description
-Ever wondered what the winning seria end lottnummer are? Do you want to know if the bingolott with the lottnummer after you won that million? Look no further.
+Ever wondered what the winning serie and lottnummers are? Do you want to know if the bingolott with the lottnummer after you won that million? Look no further.
 
 # bingoplotto
 Script that checks with bingolottos api for winning lottery tickets and plots them.

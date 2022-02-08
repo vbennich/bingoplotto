@@ -3,6 +3,8 @@ Script that checks with bingolottos api for winning lottery tickets and plots th
 The script spawns 8 threads and uses requests to query bingolottos' API.
 The result is stored as a {serienummer}.json with serie+lottnummer as keys and the win as value.
 
+![Demo](demo.gif)
+
 # Install
 pip install -r requirements.txt
 

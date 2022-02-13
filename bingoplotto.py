@@ -9,7 +9,7 @@ from atpbar import atpbar
 
 
 def main(args: argparse.Namespace) -> None:
-    session = requests.Session()
+
     threads_nr = 8
     threads = []
     serie = args.serie
@@ -21,7 +21,7 @@ def main(args: argparse.Namespace) -> None:
     for i in range(threads_nr):
         end = start + requests_per_thread_distribution[i]
         thread = threading.Thread(
-            target=lotto_scraper, args=(session, vinster, serie, start, end)
+            target=lotto_scraper, args=(vinster, serie, start, end)
         )
         threads.append(thread)
         start += requests_per_thread_distribution[i]
@@ -54,23 +54,19 @@ def split_integer(num: int, parts: int) -> list:
     return [quotient + int(i < remainder) for i in range(parts)]
 
 
-def lotto_scraper(
-    session: requests.Session, vinster: dict, serie: int, start: int, end: int
-) -> None:
+def lotto_scraper(vinster: dict, serie: int, start: int, end: int) -> None:
+    session = requests.Session()
     for i in atpbar(range(start, end)):
         zero_filled_serie = str(serie).zfill(4)
         zero_filled_lottnummer = str(i).zfill(5)
         payload = {"S": zero_filled_serie, "L": zero_filled_lottnummer}
         r = session.post(url="https://www.bingolotto.se/ratta-lotten/", params=payload)
         soup = BeautifulSoup(r.text, "html.parser")
-        vinst = soup.find("div", {"class": "alert alert-success"})
-        if vinst:
-            for line in vinst.get_text().split("\n"):
-                if "Vinstvärde" in line:
-                    value = line.split()[1]
-                    vinster[int(f"{zero_filled_serie}{zero_filled_lottnummer}")] = int(
-                        value
-                    )
+        win_alert = soup.find("div", class_="alert alert-success")
+        if win_alert:
+            win_text = win_alert.find("span").get_text().split()
+            amount = win_text[1]
+            vinster[int(f"{zero_filled_serie}{zero_filled_lottnummer}")] = int(amount)
 
 
 if __name__ == "__main__":

@@ -5,7 +5,7 @@ Ever wondered what the winning serie and lottnummers are? Do you want to know if
 ## Description
 
 Script that checks with bingolottos api for winning lottery tickets and plots them.
-The script spawns 8 threads and uses requests to query bingolottos' API.
+The script spawns threads and concurrently uses requests to query bingolottos' API.
 The result is stored as a {serienummer}.json with {serie+lottnummer} as keys and the win as value.
 
 ![Demo](demo.gif)

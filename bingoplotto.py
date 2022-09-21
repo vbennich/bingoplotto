@@ -16,7 +16,7 @@ def split(a, n):
 
 
 def scrape(zero_filled_serie: str, lottnummer: int, session: requests.Session):
-    url = "https://www.bingolotto.se/ratta-lotten/"
+    url = ""
     zero_filled_lottnummer = str(lottnummer).zfill(5)
     payload = {"S": zero_filled_serie, "L": zero_filled_lottnummer}
     r = session.post(url=url, params=payload)
